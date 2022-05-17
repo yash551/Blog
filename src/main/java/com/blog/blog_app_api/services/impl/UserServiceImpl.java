@@ -2,14 +2,18 @@ package com.blog.blog_app_api.services.impl;
 
 import java.util.List;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
-import com.blog.blog_app_api.entitties.User;
+import com.blog.blog_app_api.entities.User;
+import com.blog.blog_app_api.exceptions.ResourceNotFoundException;
 import com.blog.blog_app_api.payloads.UserDto;
 import com.blog.blog_app_api.repositories.UserRepo;
 import com.blog.blog_app_api.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -26,26 +30,48 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
 
-        User user = this.userRepo.getById(userId)
+        User user = this.userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        // User user = this.userRepo.getById(userId);
+        // if (user == null) {
+        // throw new ResourceNotFoundException("User", "id", userId);
+        // }
+        // user.setName(userDto.getName());
+        // user.setEmail(userDto.getEmail());
+        // user.setPassword(userDto.getPassword());
+        // user.setAbout(userDto.getAbout());
+
+        User updatedUser = this.userRepo.save(user);
+        UserDto userDto1 = this.usertoDto(updatedUser);
+
+        return userDto1;
     }
 
     @Override
     public UserDto getUserById(Integer userId) {
-        // TODO Auto-generated method stub
-        return null;
+
+        User user = this.userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+
+        return this.usertoDto(user);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        // TODO Auto-generated method stub
-        return null;
+
+        List<User> users = this.userRepo.findAll();
+        List<UserDto> userDtos = users.stream().map(user -> this.usertoDto(user)).collect(Collectors.toList());
+
+        return userDtos;
     }
 
     @Override
     public void deleteUser(Integer userId) {
-        // TODO Auto-generated method stub
 
+        User user = this.userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        this.userRepo.delete(user);
     }
 
     private User dtoToUser(UserDto userDto) {

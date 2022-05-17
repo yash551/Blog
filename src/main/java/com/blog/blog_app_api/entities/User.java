@@ -1,4 +1,4 @@
-package com.blog.blog_app_api.entitties;
+package com.blog.blog_app_api.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

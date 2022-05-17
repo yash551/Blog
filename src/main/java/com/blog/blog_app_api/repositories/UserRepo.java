@@ -1,6 +1,6 @@
 package com.blog.blog_app_api.repositories;
 
-import com.blog.blog_app_api.entitties.User;
+import com.blog.blog_app_api.entities.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
