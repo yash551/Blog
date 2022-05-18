@@ -3,7 +3,6 @@ package com.blog.blog_app_api.controllers;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.validation.executable.ValidateOnExecution;
 
 import com.blog.blog_app_api.payloads.ApiResponse;
 import com.blog.blog_app_api.payloads.CategoryDto;

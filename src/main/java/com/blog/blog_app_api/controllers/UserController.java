@@ -1,7 +1,5 @@
 package com.blog.blog_app_api.controllers;
 
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import com.blog.blog_app_api.payloads.ApiResponse;
